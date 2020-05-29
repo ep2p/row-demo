@@ -1,0 +1,12 @@
+row:
+  enable: true
+  ws:
+    enable: true
+logging:
+  level:
+    labs.psychogen: trace
+spring:
+  application:
+    name: checkin
+server:
+  port: 8080
