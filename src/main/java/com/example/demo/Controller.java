@@ -7,6 +7,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RowController
 public class Controller {
+    private final AlterService alterService;
+
+    public Controller(AlterService alterService) {
+        this.alterService = alterService;
+    }
+
     @GetMapping("/t1")
     public @ResponseBody
     SampleDto sayHi(){
@@ -26,7 +32,7 @@ public class Controller {
     SampleDto alter2(@RowQuery SampleDto query, @RequestBody SampleDto sampleDto){
         System.out.println(query.getField());
         System.out.println(sampleDto.getField());
-        sampleDto.setField(sampleDto.getField() + " -- Altered");
+        alterService.alter(sampleDto);
         return sampleDto;
     }
 

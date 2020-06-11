@@ -5,7 +5,8 @@ row:
 logging:
   level:
     labs.psychogen: trace
-spring:
+  aop:
+    proxy-target-class: true
   application:
     name: checkin
 server:
