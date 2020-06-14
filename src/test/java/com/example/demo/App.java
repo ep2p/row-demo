@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.api.SampleDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import labs.psychogen.row.RowEndpoint;
 

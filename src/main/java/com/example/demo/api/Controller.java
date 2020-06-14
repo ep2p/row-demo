@@ -1,8 +1,11 @@
-package com.example.demo;
+package com.example.demo.api;
 
+import com.example.demo.service.AlterService;
 import labs.psychogen.row.RowController;
 import labs.psychogen.row.RowIgnore;
 import labs.psychogen.row.RowQuery;
+import labs.psychogen.row.context.RowContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RowController
@@ -22,6 +25,7 @@ public class Controller {
     @PostMapping("/t2")
     public @ResponseBody
     SampleDto alter(@RequestBody SampleDto sampleDto){
+        System.out.println(RowContextHolder.getContext().getRowUser().getUserId());
         System.out.println(sampleDto.getField());
         sampleDto.setField(sampleDto.getField() + " -- Altered");
         return sampleDto;

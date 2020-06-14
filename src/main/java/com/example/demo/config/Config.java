@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.config;
 
+import labs.psychogen.row.filter.RowFilterChain;
+import labs.psychogen.row.filter.RowInvokerFiler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -9,10 +11,8 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.savedrequest.NullRequestCache;
@@ -21,6 +21,8 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
 import org.springframework.session.web.http.HttpSessionIdResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import javax.annotation.PostConstruct;
 
 @Configuration
 @EnableWebMvc
@@ -38,6 +40,23 @@ public class Config {
         return scheduler;
     }
 
+
+    @Configuration
+    public static class RowSecurityConfiguration {
+        private final SecurityBasedRowFilter securityBasedRowFilter;
+        private final RowFilterChain rowFilterChain;
+
+        public RowSecurityConfiguration(SecurityBasedRowFilter securityBasedRowFilter, RowFilterChain rowFilterChain) {
+            this.securityBasedRowFilter = securityBasedRowFilter;
+            this.rowFilterChain = rowFilterChain;
+        }
+
+        @PostConstruct
+        public void registerFiler(){
+            System.out.println("Registering filter");
+            rowFilterChain.addFilterBefore(securityBasedRowFilter, RowInvokerFiler.class);
+        }
+    }
 
     @EnableGlobalMethodSecurity(prePostEnabled = true)
     @Configuration
