@@ -1,11 +1,10 @@
 package com.example.demo.api;
 
 import com.example.demo.service.AlterService;
-import labs.psychogen.row.RowController;
-import labs.psychogen.row.RowIgnore;
-import labs.psychogen.row.RowQuery;
+import labs.psychogen.row.annotations.RowController;
+import labs.psychogen.row.annotations.RowIgnore;
+import labs.psychogen.row.annotations.RowQuery;
 import labs.psychogen.row.context.RowContextHolder;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RowController

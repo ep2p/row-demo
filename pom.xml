@@ -48,11 +48,13 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>labs.psychogen</groupId>
-			<artifactId>springboot-row-starter</artifactId>
-			<version>1.0.0-RELEASE</version>
+			<groupId>com.github.psychogen-labs</groupId>
+			<artifactId>spring-rest-over-ws</artifactId>
+			<version>1.1.1-RELEASE</version>
 		</dependency>
+
 
 		<!--TEST-->
 		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-client-api -->
@@ -84,6 +86,13 @@
 		</dependency>
 
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
 
 	<build>
 		<plugins>

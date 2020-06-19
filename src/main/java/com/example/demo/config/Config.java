@@ -1,7 +1,5 @@
 package com.example.demo.config;
 
-import labs.psychogen.row.filter.RowFilterChain;
-import labs.psychogen.row.filter.RowInvokerFiler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -22,8 +20,6 @@ import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
 import org.springframework.session.web.http.HttpSessionIdResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import javax.annotation.PostConstruct;
-
 @Configuration
 @EnableWebMvc
 public class Config {
@@ -40,23 +36,6 @@ public class Config {
         return scheduler;
     }
 
-
-    @Configuration
-    public static class RowSecurityConfiguration {
-        private final SecurityBasedRowFilter securityBasedRowFilter;
-        private final RowFilterChain rowFilterChain;
-
-        public RowSecurityConfiguration(SecurityBasedRowFilter securityBasedRowFilter, RowFilterChain rowFilterChain) {
-            this.securityBasedRowFilter = securityBasedRowFilter;
-            this.rowFilterChain = rowFilterChain;
-        }
-
-        @PostConstruct
-        public void registerFiler(){
-            System.out.println("Registering filter");
-            rowFilterChain.addFilterBefore(securityBasedRowFilter, RowInvokerFiler.class);
-        }
-    }
 
     @EnableGlobalMethodSecurity(prePostEnabled = true)
     @Configuration

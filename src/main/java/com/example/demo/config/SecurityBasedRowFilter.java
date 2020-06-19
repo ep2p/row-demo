@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import labs.psychogen.row.annotations.Filter;
 import labs.psychogen.row.context.RowContextHolder;
 import labs.psychogen.row.domain.RowWebsocketSession;
 import labs.psychogen.row.domain.protocol.RequestDto;
@@ -8,10 +9,9 @@ import labs.psychogen.row.filter.RowFilter;
 import labs.psychogen.row.repository.RowSessionRegistry;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-@Component
+@Filter(type = Filter.Type.BEFORE)
 public class SecurityBasedRowFilter implements RowFilter {
     private final RowSessionRegistry sessionRegistry;
 
