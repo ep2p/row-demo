@@ -1,18 +1,23 @@
 package com.example.demo.api;
 
 import com.example.demo.service.AlterService;
+import com.example.demo.service.publisher.TestEventPublisher;
+import labs.psychogen.row.annotations.PreSubscribe;
 import labs.psychogen.row.annotations.RowController;
 import labs.psychogen.row.annotations.RowIgnore;
 import labs.psychogen.row.annotations.RowQuery;
 import labs.psychogen.row.context.RowContextHolder;
+import labs.psychogen.row.event.PublishStrategy;
 import org.springframework.web.bind.annotation.*;
 
 @RowController
 public class Controller {
     private final AlterService alterService;
+    private final TestEventPublisher testEventPublisher;
 
-    public Controller(AlterService alterService) {
+    public Controller(AlterService alterService, TestEventPublisher testEventPublisher) {
         this.alterService = alterService;
+        this.testEventPublisher = testEventPublisher;
     }
 
     @GetMapping("/t1")
@@ -52,4 +57,17 @@ public class Controller {
         return new SampleDto("hi");
     }
 
+    @PreSubscribe(value = "test", strategy = PublishStrategy.Strategy.SINGLE_SESSION)
+    @GetMapping("/subs/t1")
+    public @ResponseBody
+    SampleDto subscribe(){
+        return new SampleDto("done :)");
+    }
+
+    @PostMapping("/subs/publish/t1")
+    public @ResponseBody
+    SampleDto publish(@RequestBody SampleDto sampleDto){
+        testEventPublisher.publish(sampleDto);
+        return new SampleDto("finished publishing!");
+    }
 }

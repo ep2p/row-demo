@@ -87,8 +87,34 @@ public class App {
 
         session.getAsyncRemote().sendText(data);
 
+        //Subs - T1
+        requestDto.setMethod(RowEndpoint.RowMethod.GET.getName().toUpperCase());
+        requestDto.setAddress("/subs/t1");
+        requestDto.setId(UUID.randomUUID().toString());
+        requestDto.setQuery(null);
+        requestDto.setBody(null);
+
+        data = objectMapper.writeValueAsString(requestDto);
+        System.out.println(data);
+
+        session.getAsyncRemote().sendText(data);
+
+
+        //Subs - publish - t1
+        requestDto.setMethod(RowEndpoint.RowMethod.POST.getName().toUpperCase());
+        requestDto.setAddress("/subs/publish/t1");
+        requestDto.setId(UUID.randomUUID().toString());
+        requestDto.setQuery(null);
+        requestDto.setBody(new SampleDto("this should be published :D"));
+
+        data = objectMapper.writeValueAsString(requestDto);
+        System.out.println(data);
+
+        session.getAsyncRemote().sendText(data);
+
+
         try {
-            Thread.sleep(2000);
+            Thread.sleep(20000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
