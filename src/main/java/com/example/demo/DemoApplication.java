@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import labs.psychogen.row.annotations.EnableRowPublisher;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.Map;
+
 public class RequestDto {
 
     private String id;
@@ -7,6 +9,7 @@ public class RequestDto {
     private String address;
     private Object query;
     private Object body;
+    private Map<String, String> headers;
     private Double version = 1.0;
 
     public String getId() {
@@ -55,5 +58,13 @@ public class RequestDto {
 
     public void setVersion(Double version) {
         this.version = version;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
     }
 }

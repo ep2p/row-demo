@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import labs.psychogen.row.annotations.Filter;
 import labs.psychogen.row.context.RowContextHolder;
+import labs.psychogen.row.context.RowUser;
 import labs.psychogen.row.domain.RowWebsocketSession;
 import labs.psychogen.row.domain.protocol.RequestDto;
 import labs.psychogen.row.domain.protocol.ResponseDto;
@@ -22,9 +23,9 @@ public class SecurityBasedRowFilter implements RowFilter {
 
     @Override
     public boolean filter(RequestDto requestDto, ResponseDto responseDto, WebSocketSession webSocketSession) throws Exception {
-        String userId = RowContextHolder.getContext().getRowUser().getUserId();
-        Assert.notNull(userId, "Context user id can not be null");
-        RowWebsocketSession session = sessionRegistry.getSession(userId);
+        RowUser rowUser = RowContextHolder.getContext().getRowUser();
+        Assert.notNull(rowUser.getUserId(), "Context user id can not be null");
+        RowWebsocketSession session = sessionRegistry.getSession(rowUser.getUserId(), rowUser.getSessionId());
         Assert.notNull(session, "Session can not be null");
         Authentication authentication = (Authentication) session.getExtra();
         SecurityContextHolder.getContext().setAuthentication(authentication);
