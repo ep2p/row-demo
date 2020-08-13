@@ -11,7 +11,6 @@ import labs.psychogen.row.repository.RowSessionRegistry;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
-import org.springframework.web.socket.WebSocketSession;
 
 @Filter(type = Filter.Type.BEFORE)
 public class SecurityBasedRowFilter implements RowFilter {
@@ -22,7 +21,7 @@ public class SecurityBasedRowFilter implements RowFilter {
     }
 
     @Override
-    public boolean filter(RequestDto requestDto, ResponseDto responseDto, WebSocketSession webSocketSession) throws Exception {
+    public boolean filter(RequestDto requestDto, ResponseDto responseDto, RowWebsocketSession rowWebsocketSession) throws Exception {
         RowUser rowUser = RowContextHolder.getContext().getRowUser();
         Assert.notNull(rowUser.getUserId(), "Context user id can not be null");
         RowWebsocketSession session = sessionRegistry.getSession(rowUser.getUserId(), rowUser.getSessionId());

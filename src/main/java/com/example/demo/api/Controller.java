@@ -57,7 +57,7 @@ public class Controller {
         return new SampleDto("hi");
     }
 
-    @PreSubscribe(value = "test", strategy = PublishStrategy.Strategy.SINGLE_SESSION)
+    @PreSubscribe(value = "test", strategy = PublishStrategy.Strategy.USER_SESSIONS)
     @GetMapping("/subs/t1")
     public @ResponseBody
     SampleDto subscribe(){
