@@ -68,7 +68,7 @@ public class Config {
     public LettuceConnectionFactory lettuceConnectionFactory() {
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
         redisStandaloneConfiguration.setDatabase(0);
-        redisStandaloneConfiguration.setHostName("redis.youtopin.com");
+        redisStandaloneConfiguration.setHostName("localhost");
         return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
