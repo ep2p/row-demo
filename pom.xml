@@ -55,24 +55,6 @@
 			<version>1.2.2-RELEASE</version>
 		</dependency>
 
-
-		<!--TEST-->
-		<!-- https://mvnrepository.com/artifact/javax.websocket/javax.websocket-client-api -->
-		<dependency>
-			<groupId>javax.websocket</groupId>
-			<artifactId>javax.websocket-client-api</artifactId>
-			<version>1.1</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.glassfish.tyrus.bundles/tyrus-standalone-client -->
-		<dependency>
-			<groupId>org.glassfish.tyrus.bundles</groupId>
-			<artifactId>tyrus-standalone-client</artifactId>
-			<version>1.13.1</version>
-			<scope>test</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.session</groupId>
 			<artifactId>spring-session-data-redis</artifactId>
@@ -83,6 +65,13 @@
 			<groupId>io.lettuce</groupId>
 			<artifactId>lettuce-core</artifactId>
 			<version>5.3.1.RELEASE</version>
+		</dependency>
+
+		<!--TEST-->
+		<dependency>
+			<groupId>com.github.psychogen-labs</groupId>
+			<artifactId>java-row-client</artifactId>
+			<version>0.1.0-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>

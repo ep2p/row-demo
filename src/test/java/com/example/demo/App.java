@@ -1,122 +1,145 @@
 package com.example.demo;
 
 import com.example.demo.api.SampleDto;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import labs.psychogen.row.RowEndpoint;
+import labs.psychogen.row.client.RowClient;
+import labs.psychogen.row.client.Subscription;
+import labs.psychogen.row.client.callback.ResponseCallback;
+import labs.psychogen.row.client.callback.SubscriptionListener;
+import labs.psychogen.row.client.model.PublishedMessage;
+import labs.psychogen.row.client.model.RowRequest;
+import labs.psychogen.row.client.model.RowResponse;
+import labs.psychogen.row.client.tyrus.RowClientConfig;
+import labs.psychogen.row.client.tyrus.RowWebsocketClient;
+import labs.psychogen.row.client.ws.HandshakeHeadersProvider;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.DeploymentException;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
 import java.io.IOException;
-import java.net.URI;
-import java.util.UUID;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class App {
-    public static void main(String[] args) throws IOException, DeploymentException {
-        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-        container.setAsyncSendTimeout(20 * 60 * 1000);
-        container.setDefaultMaxSessionIdleTimeout(20 * 60 * 1000);
-        container.setDefaultMaxBinaryMessageBufferSize(8192 * 1000);
-        container.setDefaultMaxTextMessageBufferSize(8192 * 1000);
+    public static void main(String[] args) throws IOException, InterruptedException {
+        RowClient rowClient = new RowWebsocketClient(RowClientConfig.builder()
+                .address("ws://localhost:8080/ws")
+                .handshakeHeadersProvider(new HandshakeHeadersProvider() {
+                    @Override
+                    public Map<String, List<String>> getHeaders() {
+                        Map<String, List<String>> headers = new HashMap<>();
+                        headers.put("X-Auth-Token", Collections.singletonList("adminToken"));
+                        return headers;
+                    }
+                })
+                .build());
+        rowClient.open();
 
-        Session session = container.connectToServer(WebSocketHandler.class, URI.create("ws://localhost:8080/ws"));
+        //t1
+        RowRequest<SampleDto, SampleDto> request = RowRequest.<SampleDto, SampleDto>builder()
+                .address("/t1")
+                .method(RowRequest.RowMethod.GET)
+                .build();
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+            }
 
-
-
-        RequestDto requestDto = new RequestDto();
-        ObjectMapper objectMapper = new ObjectMapper();
-
-
-        //T1
-        requestDto.setMethod(RowEndpoint.RowMethod.GET.getName().toUpperCase());
-        requestDto.setAddress("/t1");
-        requestDto.setId(UUID.randomUUID().toString());
-
-        String data = objectMapper.writeValueAsString(requestDto);
-        System.out.println(data);
-
-        session.getAsyncRemote().sendText(data);
-
-
-        //T2
-        requestDto.setMethod(RowEndpoint.RowMethod.POST.getName().toUpperCase());
-        requestDto.setAddress("/t2");
-        requestDto.setId(UUID.randomUUID().toString());
-        requestDto.setBody(new SampleDto("test"));
-
-        data = objectMapper.writeValueAsString(requestDto);
-        System.out.println(data);
-
-        session.getAsyncRemote().sendText(data);
-
-        //T3
-        requestDto.setMethod(RowEndpoint.RowMethod.POST.getName().toUpperCase());
-        requestDto.setAddress("/t3");
-        requestDto.setId(UUID.randomUUID().toString());
-        requestDto.setBody(new SampleDto("test"));
-        requestDto.setQuery(new SampleDto("query"));
-
-        data = objectMapper.writeValueAsString(requestDto);
-        System.out.println(data);
-
-        session.getAsyncRemote().sendText(data);
-
-        //T4
-        requestDto.setMethod(RowEndpoint.RowMethod.GET.getName().toUpperCase());
-        requestDto.setAddress("/t4/hello");
-        requestDto.setId(UUID.randomUUID().toString());
-        requestDto.setQuery(null);
-        requestDto.setBody(null);
-
-        data = objectMapper.writeValueAsString(requestDto);
-        System.out.println(data);
-
-        session.getAsyncRemote().sendText(data);
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
 
 
-        //T4
-        requestDto.setMethod(RowEndpoint.RowMethod.GET.getName().toUpperCase());
-        requestDto.setAddress("/t5");
-        requestDto.setId(UUID.randomUUID().toString());
-        requestDto.setQuery(null);
-        requestDto.setBody(null);
+        //t2
+        request.setAddress("/t2");
+        request.setMethod(RowRequest.RowMethod.POST);
+        request.setBody(new SampleDto("alter me :P "));
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+            }
 
-        data = objectMapper.writeValueAsString(requestDto);
-        System.out.println(data);
-
-        session.getAsyncRemote().sendText(data);
-
-        //Subs - T1
-        requestDto.setMethod(RowEndpoint.RowMethod.GET.getName().toUpperCase());
-        requestDto.setAddress("/subs/t1");
-        requestDto.setId(UUID.randomUUID().toString());
-        requestDto.setQuery(null);
-        requestDto.setBody(null);
-
-        data = objectMapper.writeValueAsString(requestDto);
-        System.out.println(data);
-
-        session.getAsyncRemote().sendText(data);
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
 
 
-        //Subs - publish - t1
-        requestDto.setMethod(RowEndpoint.RowMethod.POST.getName().toUpperCase());
-        requestDto.setAddress("/subs/publish/t1");
-        requestDto.setId(UUID.randomUUID().toString());
-        requestDto.setQuery(null);
-        requestDto.setBody(new SampleDto("this should be published :D"));
+        //t3
+        request.setAddress("/t3");
+        request.setQuery(new SampleDto("This is my query"));
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+            }
 
-        data = objectMapper.writeValueAsString(requestDto);
-        System.out.println(data);
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
 
-        session.getAsyncRemote().sendText(data);
+        //t4
+        request.setAddress("/t4/hello");
+        request.setMethod(RowRequest.RowMethod.GET);
+        request.setQuery(null);
+        request.setBody(null);
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
 
 
-        try {
-            Thread.sleep(20000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        //subs/t1
+        request.setAddress("/subs/t1");
+        rowClient.subscribe(request, new ResponseCallback<SampleDto>() {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+                System.out.println(rowResponse.getSubscription());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }, new SubscriptionListener<SampleDto>() {
+            @Override
+            public void onMessage(Subscription subscription, PublishedMessage<SampleDto> sampleDto) {
+                System.out.println(sampleDto);
+                System.out.println(subscription);
+            }
+        });
+
+        Thread.sleep(1000);
+
+        //publish
+        request.setAddress("/subs/publish/t1");
+        request.setMethod(RowRequest.RowMethod.POST);
+        request.setBody(new SampleDto("publish me :P "));
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+
+        Thread.sleep(5000);
     }
 }
