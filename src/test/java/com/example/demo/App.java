@@ -1,16 +1,16 @@
 package com.example.demo;
 
 import com.example.demo.api.SampleDto;
-import labs.psychogen.row.client.RowClient;
-import labs.psychogen.row.client.Subscription;
-import labs.psychogen.row.client.callback.ResponseCallback;
-import labs.psychogen.row.client.callback.SubscriptionListener;
-import labs.psychogen.row.client.model.PublishedMessage;
-import labs.psychogen.row.client.model.RowRequest;
-import labs.psychogen.row.client.model.RowResponse;
-import labs.psychogen.row.client.tyrus.RowClientConfig;
-import labs.psychogen.row.client.tyrus.RowWebsocketClient;
-import labs.psychogen.row.client.ws.HandshakeHeadersProvider;
+import lab.idioglossia.row.client.RowClient;
+import lab.idioglossia.row.client.Subscription;
+import lab.idioglossia.row.client.callback.ResponseCallback;
+import lab.idioglossia.row.client.callback.SubscriptionListener;
+import lab.idioglossia.row.client.model.PublishedMessage;
+import lab.idioglossia.row.client.model.RowRequest;
+import lab.idioglossia.row.client.model.RowResponse;
+import lab.idioglossia.row.client.tyrus.RowClientConfig;
+import lab.idioglossia.row.client.tyrus.TyrusRowWebsocketClient;
+import lab.idioglossia.row.client.ws.HandshakeHeadersProvider;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class App {
     public static void main(String[] args) throws IOException, InterruptedException {
-        RowClient rowClient = new RowWebsocketClient(RowClientConfig.builder()
+        RowClient rowClient = new TyrusRowWebsocketClient(RowClientConfig.builder()
                 .address("ws://localhost:8080/ws")
                 .handshakeHeadersProvider(new HandshakeHeadersProvider() {
                     @Override

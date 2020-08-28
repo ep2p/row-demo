@@ -1,7 +1,7 @@
 package com.example.demo.config;
 
-import labs.psychogen.row.exception.AuthenticationFailedException;
-import labs.psychogen.row.ws.TokenExtractor;
+import lab.idioglossia.row.exception.AuthenticationFailedException;
+import lab.idioglossia.row.ws.TokenExtractor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.stereotype.Component;

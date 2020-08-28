@@ -2,12 +2,12 @@ package com.example.demo.api;
 
 import com.example.demo.service.AlterService;
 import com.example.demo.service.publisher.TestEventPublisher;
-import labs.psychogen.row.annotations.PreSubscribe;
-import labs.psychogen.row.annotations.RowController;
-import labs.psychogen.row.annotations.RowIgnore;
-import labs.psychogen.row.annotations.RowQuery;
-import labs.psychogen.row.context.RowContextHolder;
-import labs.psychogen.row.event.PublishStrategy;
+import lab.idioglossia.row.annotations.PreSubscribe;
+import lab.idioglossia.row.annotations.RowController;
+import lab.idioglossia.row.annotations.RowIgnore;
+import lab.idioglossia.row.annotations.RowQuery;
+import lab.idioglossia.row.context.RowContextHolder;
+import lab.idioglossia.row.event.PublishStrategy;
 import org.springframework.web.bind.annotation.*;
 
 @RowController

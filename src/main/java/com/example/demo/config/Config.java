@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import labs.psychogen.row.annotations.EnableRowPublisher;
+import lab.idioglossia.row.annotations.EnableRowPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

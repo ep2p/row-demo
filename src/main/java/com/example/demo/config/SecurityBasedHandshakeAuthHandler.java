@@ -1,8 +1,8 @@
 package com.example.demo.config;
 
-import labs.psychogen.row.domain.WebsocketUserData;
-import labs.psychogen.row.exception.AuthenticationFailedException;
-import labs.psychogen.row.ws.RowHandshakeAuthHandler;
+import lab.idioglossia.row.domain.WebsocketUserData;
+import lab.idioglossia.row.exception.AuthenticationFailedException;
+import lab.idioglossia.row.ws.RowHandshakeAuthHandler;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

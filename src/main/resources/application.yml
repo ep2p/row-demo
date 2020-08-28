@@ -4,7 +4,7 @@ row:
     enable: true
 logging:
   level:
-    labs.psychogen: trace
+    lab.idioglossia: trace
   aop:
     proxy-target-class: true
   application:

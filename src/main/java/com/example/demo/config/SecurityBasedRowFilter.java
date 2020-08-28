@@ -1,13 +1,13 @@
 package com.example.demo.config;
 
-import labs.psychogen.row.annotations.Filter;
-import labs.psychogen.row.context.RowContextHolder;
-import labs.psychogen.row.context.RowUser;
-import labs.psychogen.row.domain.RowWebsocketSession;
-import labs.psychogen.row.domain.protocol.RequestDto;
-import labs.psychogen.row.domain.protocol.ResponseDto;
-import labs.psychogen.row.filter.RowFilter;
-import labs.psychogen.row.repository.RowSessionRegistry;
+import lab.idioglossia.row.annotations.Filter;
+import lab.idioglossia.row.context.RowContextHolder;
+import lab.idioglossia.row.context.RowUser;
+import lab.idioglossia.row.domain.RowWebsocketSession;
+import lab.idioglossia.row.domain.protocol.RequestDto;
+import lab.idioglossia.row.domain.protocol.ResponseDto;
+import lab.idioglossia.row.filter.RowFilter;
+import lab.idioglossia.row.repository.RowSessionRegistry;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.Assert;
