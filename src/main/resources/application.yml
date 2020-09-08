@@ -7,7 +7,5 @@ logging:
     lab.idioglossia: trace
   aop:
     proxy-target-class: true
-  application:
-    name: checkin
 server:
   port: 8080
