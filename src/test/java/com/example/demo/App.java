@@ -38,7 +38,7 @@ public class App {
                 .address("/t1")
                 .method(RowRequest.RowMethod.GET)
                 .build();
-        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>(SampleDto.class) {
             @Override
             public void onResponse(RowResponse<SampleDto> rowResponse) {
                 System.out.println(rowResponse);
@@ -55,7 +55,7 @@ public class App {
         request.setAddress("/t2");
         request.setMethod(RowRequest.RowMethod.POST);
         request.setBody(new SampleDto("alter me :P "));
-        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>(SampleDto.class) {
             @Override
             public void onResponse(RowResponse<SampleDto> rowResponse) {
                 System.out.println(rowResponse);
@@ -71,7 +71,7 @@ public class App {
         //t3
         request.setAddress("/t3");
         request.setQuery(new SampleDto("This is my query"));
-        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>(SampleDto.class) {
             @Override
             public void onResponse(RowResponse<SampleDto> rowResponse) {
                 System.out.println(rowResponse);
@@ -88,7 +88,7 @@ public class App {
         request.setMethod(RowRequest.RowMethod.GET);
         request.setQuery(null);
         request.setBody(null);
-        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>(SampleDto.class) {
             @Override
             public void onResponse(RowResponse<SampleDto> rowResponse) {
                 System.out.println(rowResponse);
@@ -103,7 +103,7 @@ public class App {
 
         //subs/t1
         request.setAddress("/subs/t1");
-        rowClient.subscribe(request, new ResponseCallback<SampleDto>() {
+        rowClient.subscribe(request, new ResponseCallback<SampleDto>(SampleDto.class) {
             @Override
             public void onResponse(RowResponse<SampleDto> rowResponse) {
                 System.out.println(rowResponse);
@@ -114,9 +114,9 @@ public class App {
             public void onError(Throwable throwable) {
                 throwable.printStackTrace();
             }
-        }, new SubscriptionListener<SampleDto>() {
+        }, new SubscriptionListener<SampleDto>(SampleDto.class) {
             @Override
-            public void onMessage(Subscription subscription, PublishedMessage<SampleDto> sampleDto) {
+            public void onMessage(Subscription subscription, SampleDto sampleDto) {
                 System.out.println(sampleDto);
                 System.out.println(subscription);
             }
@@ -128,7 +128,7 @@ public class App {
         request.setAddress("/subs/publish/t1");
         request.setMethod(RowRequest.RowMethod.POST);
         request.setBody(new SampleDto("publish me :P "));
-        rowClient.sendRequest(request, new ResponseCallback<SampleDto>() {
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>(SampleDto.class) {
             @Override
             public void onResponse(RowResponse<SampleDto> rowResponse) {
                 System.out.println(rowResponse);
