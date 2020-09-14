@@ -49,6 +49,39 @@ public class App {
             }
         });
 
+        //n1
+        request = RowRequest.<SampleDto, SampleDto>builder()
+                .address("/n1")
+                .method(RowRequest.RowMethod.GET)
+                .build();
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>(SampleDto.class) {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+
+        //n2
+        request = RowRequest.<SampleDto, SampleDto>builder()
+                .address("/n2")
+                .method(RowRequest.RowMethod.GET)
+                .build();
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>(SampleDto.class) {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
 
         //t2
         request.setAddress("/t2");
