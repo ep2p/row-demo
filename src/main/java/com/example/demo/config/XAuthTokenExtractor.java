@@ -17,6 +17,9 @@ public class XAuthTokenExtractor implements TokenExtractor {
         if (handshakeHeaders.containsKey(HEADER_NAME)) {
             return handshakeHeaders.get(HEADER_NAME).get(0);
         }
-        throw new AuthenticationFailedException();
+        //either this:
+        return "";
+        // or this:
+        //throw new AuthenticationFailedException();
     }
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 public class SecurityBasedHandshakeAuthHandler implements RowHandshakeAuthHandler {
     @Override
     public WebsocketUserData handshake(String token) throws AuthenticationFailedException {
-        Object auth = null;
+        Object auth = new UsernamePasswordAuthenticationToken("", "", new ArrayList<>());
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
         if(token.equals("adminToken")){
             grantedAuthorityList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
