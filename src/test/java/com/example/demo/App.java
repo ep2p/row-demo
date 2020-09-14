@@ -173,5 +173,65 @@ public class App {
         });
 
         Thread.sleep(5000);
+
+        System.out.println("\n\n-----\n\n");
+
+        //subs/t1
+        Map<String, String> headers = new HashMap<>();
+        headers.put("CUSTOM_HEADER_SUBS", "myCustomEvent");
+        request.setMethod(RowRequest.RowMethod.GET);
+        request.setAddress("/subs/t2");
+        request.setHeaders(headers);
+        rowClient.subscribe(request, new ResponseCallback<SampleDto>(SampleDto.class) {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+                System.out.println(rowResponse.getSubscription());
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        }, new SubscriptionListener<SampleDto>(SampleDto.class) {
+            @Override
+            public void onMessage(Subscription subscription, SampleDto sampleDto) {
+                System.out.println("custom event: "+ sampleDto);
+                System.out.println("custom event: "+ subscription);
+                subscription.close(new ResponseCallback<SampleDto>(SampleDto.class) {
+                    @Override
+                    public void onResponse(RowResponse<SampleDto> rowResponse) {
+                        System.out.println("Finished un-subscribing :)");
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+
+                    }
+                });
+            }
+        });
+
+        Thread.sleep(1000);
+
+        //publish
+        request.setAddress("/subs/publish/t2");
+        request.setMethod(RowRequest.RowMethod.POST);
+        request.setBody(new SampleDto("new message to publish for custom event"));
+        request.setHeaders(headers);
+        rowClient.sendRequest(request, new ResponseCallback<SampleDto>(SampleDto.class) {
+            @Override
+            public void onResponse(RowResponse<SampleDto> rowResponse) {
+                System.out.println(rowResponse);
+            }
+
+            @Override
+            public void onError(Throwable throwable) {
+                throwable.printStackTrace();
+            }
+        });
+
+        Thread.sleep(5000);
+
     }
 }
